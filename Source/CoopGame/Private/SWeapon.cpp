@@ -3,6 +3,8 @@
 
 #include "SWeapon.h"
 
+#include "DrawDebugHelpers.h"
+
 // Sets default values
 ASWeapon::ASWeapon()
 {
@@ -19,6 +21,33 @@ void ASWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ASWeapon::Fire()
+{
+	auto *owner = GetOwner();
+	if(owner)
+	{
+		FHitResult Hit;
+
+		FVector EyeLocation;
+		FRotator EyeRotation;
+		owner->GetActorEyesViewPoint(EyeLocation, EyeRotation);
+
+		auto LineTraceEnd = EyeLocation + (EyeRotation.Vector() * 10000);
+
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(owner);
+		QueryParams.AddIgnoredActor(this);
+		QueryParams.bTraceComplex = true;
+		
+		if(GetWorld()->LineTraceSingleByChannel(Hit, EyeLocation, LineTraceEnd, ECC_Visibility, QueryParams))
+		{
+			
+		}
+
+		DrawDebugLine(GetWorld(), EyeLocation, LineTraceEnd, FColor::White, false, 1, 0, 1);
+	}
 }
 
 // Called every frame
