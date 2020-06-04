@@ -47,7 +47,8 @@ protected:
 
 	void EndZoom();
 
-	void Fire();
+	void StartFire();
+	void StopFire();
 
 	class ASWeapon *CurrentWeapon;
 
