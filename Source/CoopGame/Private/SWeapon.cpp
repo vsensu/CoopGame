@@ -51,7 +51,7 @@ void ASWeapon::Fire()
 		QueryParams.bTraceComplex = true;
 		QueryParams.bReturnPhysicalMaterial = true;
 		
-		if(GetWorld()->LineTraceSingleByChannel(Hit, EyeLocation, LineTraceEnd, ECC_Visibility, QueryParams))
+		if(GetWorld()->LineTraceSingleByChannel(Hit, EyeLocation, LineTraceEnd, COLLISION_WEAPON, QueryParams))
 		{
 			auto *HitActor = Hit.GetActor();
 
