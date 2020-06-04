@@ -42,6 +42,9 @@ protected:
 
 	void PlayFireEffects(const FVector &TracerEndPoint);
 
+	UPROPERTY(EditDefaultsOnly, Category="Weapon")
+	TSubclassOf<UCameraShake> FireCamShake;
+
 public:	
 
 
