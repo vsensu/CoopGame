@@ -35,6 +35,11 @@ ASWeapon::ASWeapon()
 
 void ASWeapon::Fire()
 {
+	if(GetLocalRole() < ROLE_Authority)
+	{
+		ServerFire();
+	}
+	
 	auto *owner = GetOwner();
 	if(owner)
 	{
@@ -101,6 +106,16 @@ void ASWeapon::Fire()
 
 		LastFireTime = GetWorld()->TimeSeconds;
 	}
+}
+
+void ASWeapon::ServerFire_Implementation()
+{
+	Fire();
+}
+
+bool ASWeapon::ServerFire_Validate()
+{
+	return true;
 }
 
 void ASWeapon::StartFire()
