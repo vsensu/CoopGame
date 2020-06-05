@@ -6,6 +6,19 @@
 #include "GameFramework/Actor.h"
 #include "SWeapon.generated.h"
 
+
+USTRUCT()
+struct FHitScanTrace
+{
+	GENERATED_BODY();
+public:
+	UPROPERTY()
+	FVector_NetQuantize TraceFrom;
+	
+	UPROPERTY()
+	FVector_NetQuantize TraceTo;
+};
+
 UCLASS()
 class COOPGAME_API ASWeapon : public AActor
 {
@@ -70,6 +83,12 @@ protected:
 	float RateOfFire;
 
 	float TimeBetweenShots;
+
+	UPROPERTY(ReplicatedUsing=OnRep_HitScanTrace)
+	FHitScanTrace HitScanTrace;
+
+	UFUNCTION()
+	void OnRep_HitScanTrace();
 
 public:	
 
