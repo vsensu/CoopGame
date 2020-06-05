@@ -53,6 +53,7 @@ protected:
 	void StartFire();
 	void StopFire();
 
+	UPROPERTY(Replicated)
 	class ASWeapon *CurrentWeapon;
 
 	UPROPERTY(EditDefaultsOnly, Category="Player")
@@ -74,6 +75,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-
 	FVector GetPawnViewLocation() const override;
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
