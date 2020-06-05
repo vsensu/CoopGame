@@ -8,6 +8,7 @@
 #include "SWeapon.h"
 #include "Components/CapsuleComponent.h"
 #include "CoopGame/CoopGame.h"
+#include "SHealthComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -24,6 +25,8 @@ ASCharacter::ASCharacter()
 	
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	CameraComp->SetupAttachment(SpringArmComp);
+
+	HealthComp = CreateDefaultSubobject<USHealthComponent>(TEXT("HealthComp"));
 
 	ZoomedFOV = 65.0f;
 	ZoomSpeed = 20.0f;
@@ -48,6 +51,8 @@ void ASCharacter::BeginPlay()
 		CurrentWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale,
 		                                 WeaponAttachSocketName);
 	}
+
+	HealthComp->OnHealthChanged.AddDynamic(this, &ASCharacter::OnHealthChanged);
 }
 
 void ASCharacter::MoveForward(float Value)
@@ -93,6 +98,21 @@ void ASCharacter::StopFire()
 	if(CurrentWeapon)
 	{
 		CurrentWeapon->StopFire();
+	}
+}
+
+void ASCharacter::OnHealthChanged(USHealthComponent* healthComp, float Health, float HealthDelta,
+	const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+{
+	if(Health <= 0.0f && !bDied)
+	{
+		bDied = true;
+		
+		GetMovementComponent()->StopMovementImmediately();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		DetachFromControllerPendingDestroy();
+		SetLifeSpan(10.0f);
 	}
 }
 
