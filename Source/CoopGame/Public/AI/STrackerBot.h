@@ -24,6 +24,17 @@ protected:
 
 	FVector GetNextPathPoint();
 
+	FVector NextPathPoint;
+
+	UPROPERTY(EditDefaultsOnly, Category="TrackerBot")
+	float RequiredDistanceToTarget;
+
+	UPROPERTY(EditDefaultsOnly, Category="TrackerBot")
+	float MovementForce;
+
+	UPROPERTY(EditDefaultsOnly, Category="TrackerBot")
+	bool bUseAccelChange;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
