@@ -35,8 +35,11 @@ protected:
 	UFUNCTION()
     void OnHealthChanged(USHealthComponent* InHealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 
-	UPROPERTY(BlueprintReadOnly, Category="Barrel")
+	UPROPERTY(ReplicatedUsing=OnRep_Exploded, BlueprintReadOnly, Category="Barrel")
 	bool bExploded;
+
+	UFUNCTION()
+	void OnRep_Exploded();
 
 	UPROPERTY(EditDefaultsOnly, Category="Barrel")
 	float ExplosionImpulse;
