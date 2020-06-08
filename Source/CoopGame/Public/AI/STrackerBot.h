@@ -35,6 +35,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="TrackerBot")
 	bool bUseAccelChange;
 
+	UPROPERTY(EditDefaultsOnly, Category="TrackerBot")
+	class USHealthComponent *HealthComp;
+
+	UFUNCTION()
+    void OnHealthChanged(USHealthComponent* InHealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
