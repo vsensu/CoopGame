@@ -41,6 +41,8 @@ protected:
 	UFUNCTION()
     void OnHealthChanged(USHealthComponent* InHealthComp, float Health, float HealthDelta, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 
+	UMaterialInstanceDynamic *MatInst;
+
 
 public:	
 	// Called every frame
