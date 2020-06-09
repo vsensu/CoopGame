@@ -43,6 +43,19 @@ protected:
 
 	UMaterialInstanceDynamic *MatInst;
 
+	void Explode();
+
+	bool bExploded;
+
+	UPROPERTY(EditDefaultsOnly, Category="Effects")
+	UParticleSystem *ExplodeEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category="TrackerBot")
+	float ExplodeDamage;
+
+	UPROPERTY(EditDefaultsOnly, Category="TrackerBot")
+	float DamageRadius;
+
 
 public:	
 	// Called every frame
