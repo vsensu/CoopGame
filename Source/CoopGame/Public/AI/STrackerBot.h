@@ -56,6 +56,16 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="TrackerBot")
 	float DamageRadius;
 
+	UPROPERTY(EditDefaultsOnly, Category="Components")
+	class USphereComponent *SphereComp;
+
+	bool bStartedSelfDestruction;
+	
+	FTimerHandle TimerHandle_SelfDamage;
+
+	UFUNCTION()
+	void DamageSelf();
+
 
 public:	
 	// Called every frame
@@ -64,4 +74,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+	void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };
