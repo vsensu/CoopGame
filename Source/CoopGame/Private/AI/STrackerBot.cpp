@@ -12,6 +12,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SHealthComponent.h"
 #include "Components/SphereComponent.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ASTrackerBot::ASTrackerBot()
@@ -39,6 +40,7 @@ ASTrackerBot::ASTrackerBot()
 
 	ExplodeDamage = 40.0f;
 	DamageRadius = 200.0f;
+	SelfDamageInterval = 0.25f;
 
 }
 
@@ -105,6 +107,8 @@ void ASTrackerBot::Explode()
 		, ignoredActors, this, GetInstigatorController(), true);
 
 	DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 12, FColor::Red, false, 2.0f, 0, 1);
+
+	UGameplayStatics::SpawnSoundAtLocation(this, ExplosionSound, GetActorLocation());
 	
 	Destroy();
 }
@@ -155,9 +159,11 @@ void ASTrackerBot::NotifyActorBeginOverlap(AActor* OtherActor)
 	auto *playerPawn = Cast<ASCharacter>(OtherActor);
 	if(playerPawn)
 	{
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle_SelfDamage, this, &ASTrackerBot::DamageSelf, 0.5f, true, 0.0f);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle_SelfDamage, this, &ASTrackerBot::DamageSelf, SelfDamageInterval, true, 0.0f);
 
 		bStartedSelfDestruction = true;
+
+		UGameplayStatics::SpawnSoundAttached(ExplodeWarningSound, MeshComp);
 	}
 }
 
